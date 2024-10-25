@@ -1,0 +1,6 @@
+.env
+__pychache__
+venv
+myenv
+cc.py
+PROJECT_SUMMARY.txt
