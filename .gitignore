@@ -1,6 +1,21 @@
-.env
-__pychache__
-venv
-myenv
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment directories
+venv/
+myenv/
+env/
+ENV/
+.venv/
+
+# Specific Python files
 cc.py
+
+# Miscellaneous
 PROJECT_SUMMARY.txt
+
+# ALWAYS Ignore environment variable files
+.env
