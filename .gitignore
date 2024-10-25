@@ -14,7 +14,7 @@ ENV/
 # Specific Python files
 cc.py
 
-# Miscellaneous
+# Miscellaneous (output from my cc.py gist)
 PROJECT_SUMMARY.txt
 
 # ALWAYS Ignore environment variable files
