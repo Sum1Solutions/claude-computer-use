@@ -9,6 +9,10 @@ class DockerManager:
     def __init__(self):
         load_dotenv()
         
+        # Debug print 1: Initial load from .env
+        api_key = os.getenv('ANTHROPIC_API_KEY')
+        print(f"Initial API key from .env: {api_key}")
+        
         try:
             # Get current Docker context
             try:
@@ -52,6 +56,8 @@ class DockerManager:
             
         # Get configuration from environment
         self.api_key = os.getenv('ANTHROPIC_API_KEY')
+        print(f"API key stored in self.api_key: {self.api_key}")
+        
         self.image = os.getenv('DOCKER_IMAGE')
         self.host_config_path = os.path.expandvars(os.getenv('HOST_CONFIG_PATH'))
         self.container_config_path = os.getenv('CONTAINER_CONFIG_PATH')
@@ -80,6 +86,9 @@ class DockerManager:
             print(f"Pulling image {self.image}...")
             self.client.images.pull(self.image)
             
+            # Debug print 2: Before container creation
+            print(f"API key before container creation: {self.api_key}")
+            
             print("Starting container...")
             container = self.client.containers.run(
                 image=self.image,
@@ -93,7 +102,7 @@ class DockerManager:
                     }
                 },
                 ports={
-                    '5900': '5901',  # Changed to use port 5901 instead of 5900
+                    '5900': '5901',
                     '8501': '8501',
                     '6080': '6080',
                     '8080': '8080'
@@ -104,8 +113,16 @@ class DockerManager:
             )
             
             print(f"Container started successfully. ID: {container.id}")
+            
+            # Debug print 3: Check container environment
+            env = container.exec_run('env').output.decode()
+            print("Container environment ANTHROPIC_API_KEY:")
+            for line in env.split('\n'):
+                if 'ANTHROPIC_API_KEY' in line:
+                    print(line)
+            
             print("\nPorts mapped:")
-            print("- VNC: localhost:5901")  # Updated port in message
+            print("- VNC: localhost:5901")
             print("- Web Interface: localhost:8501")
             print("- Additional ports: 6080, 8080")
             return container
